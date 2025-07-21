@@ -21,3 +21,23 @@ model Schedule {
   year        String
   semester    String
 }
+
+model Professor {
+  id            String @id @default(uuid())
+  firstName     String
+  lastName      String
+  middleInitial String?
+  acadRank      String
+}
+
+model Course {
+  id            String @id @default(uuid())
+  program       String
+  code          String
+  title         String
+  creditLec     Int
+  creditLab     Int @default(0)
+  contactLec    Int
+  contactLab    Int @default(0)
+  prerequisites String[]
+}

@@ -22,8 +22,16 @@ import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '../ui/command'
 import { Check, ChevronsUpDown } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useCreateScheduleMutation } from '@/store/api'
+import { toast } from "sonner"
 
-const CreateSchedule = () => {
+type CreateScheduleProps = {
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+}
+
+const CreateSchedule = ({ open, onOpenChange }: CreateScheduleProps) => {
+    const [createSchedule, { isLoading }] = useCreateScheduleMutation();
     const form = useForm<z.infer<typeof scheduleSchema>>({
         resolver: zodResolver(scheduleSchema),
         defaultValues: {
@@ -34,8 +42,15 @@ const CreateSchedule = () => {
         },
     })
 
-    function onSubmit(values: z.infer<typeof scheduleSchema>) {
-        console.log(values)
+    async function onSubmit(values: z.infer<typeof scheduleSchema>) {
+        try {
+            const result = await createSchedule(values).unwrap();
+            toast('New Schedule Created Successfully')
+            onOpenChange(false);
+            form.reset();
+        } catch (err: any) {
+            toast(err.data.error)
+        }
     }
   return (
     <DialogContent>
@@ -156,8 +171,7 @@ const CreateSchedule = () => {
                     <DialogClose asChild> 
                         <Button variant={'outline'} className='border-zinc-400 cursor-pointer'>Cancel</Button>
                     </DialogClose>
-                    <Button type="submit" className='bg-[#0b6602] hover:bg-[#084e02] cursor-pointer'>Create</Button>
-                    
+                    <Button disabled={isLoading} type="submit" className='bg-[#0b6602] hover:bg-[#084e02] cursor-pointer'>{isLoading ? 'Creating' : 'Create'}</Button>
                 </div>
             </form>
         </Form>

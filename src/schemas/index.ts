@@ -43,6 +43,24 @@ export const courseSchema = z.object({
   prerequisites: z.array(z.string()).optional(),
 })
 
+export const sectionSchema = z.object({
+  type: z.string().min(1, {
+    message: "Section type is required"
+  }),
+  year: z.string().min(1, {
+    message: "Year is required"
+  }),
+  section: z.string().min(1, {
+    message: "Section name is required"
+  })
+})
+
+export const roomSchema = z.object({
+  name: z.string().min(2, {
+    message: "Room name is required"
+  }),
+})
+
 export const acadRank = [
   { label: "Part-Time", value: "Part-Time" },
   { label: "Instructor I", value: "Instructor I" },

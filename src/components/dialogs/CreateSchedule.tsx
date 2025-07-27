@@ -48,8 +48,12 @@ const CreateSchedule = ({ open, onOpenChange }: CreateScheduleProps) => {
             toast('New Schedule Created Successfully')
             onOpenChange(false);
             form.reset();
-        } catch (err: any) {
-            toast(err.data.error)
+        } catch (err: unknown) {
+            if (err && typeof err === 'object' && 'data' in err && err.data && typeof err.data === 'object' && 'error' in err.data) {
+                toast((err.data as { error: string }).error);
+            } else {
+                toast('An unexpected error occurred');
+            }
         }
     }
   return (

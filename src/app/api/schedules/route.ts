@@ -32,7 +32,7 @@ export async function POST(request: Request) {
     }
 }
 
-export async function GET(request: Request) {
+export async function GET() {
     try {
         const schedules = await prisma.schedule.findMany({});
         console.log("schedules", schedules);
@@ -40,6 +40,6 @@ export async function GET(request: Request) {
         return NextResponse.json({schedules}, { status: 200 });
     } catch (error) {
         console.error("Error creating schedule:", error);
-        return NextResponse.json({ error: "Failed to create schedule" }, { status: 500 });
+        return NextResponse.json({ error: "Failed to get schedule" }, { status: 500 });
     }
 }

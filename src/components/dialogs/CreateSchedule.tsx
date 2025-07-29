@@ -26,11 +26,10 @@ import { useCreateScheduleMutation } from '@/store/api'
 import { toast } from "sonner"
 
 type CreateScheduleProps = {
-    open: boolean;
     onOpenChange: (open: boolean) => void;
 }
 
-const CreateSchedule = ({ open, onOpenChange }: CreateScheduleProps) => {
+const CreateSchedule = ({ onOpenChange }: CreateScheduleProps) => {
     const [createSchedule, { isLoading }] = useCreateScheduleMutation();
     const form = useForm<z.infer<typeof scheduleSchema>>({
         resolver: zodResolver(scheduleSchema),
@@ -44,7 +43,7 @@ const CreateSchedule = ({ open, onOpenChange }: CreateScheduleProps) => {
 
     async function onSubmit(values: z.infer<typeof scheduleSchema>) {
         try {
-            const result = await createSchedule(values).unwrap();
+            await createSchedule(values).unwrap();
             toast('New Schedule Created Successfully')
             onOpenChange(false);
             form.reset();

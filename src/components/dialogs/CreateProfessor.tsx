@@ -11,13 +11,15 @@ import { Button } from '../ui/button';
 import { cn } from '@/lib/utils';
 import { Check, ChevronsUpDown } from 'lucide-react';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '../ui/command';
+import { useCreateProfessorMutation } from '@/store/api';
+import { toast } from 'sonner';
 
 type CreateProfessorProps = {
-    open: boolean;
     onOpenChange: (open: boolean) => void;
 }
 
-const CreateProfessor = ({ open, onOpenChange }: CreateProfessorProps) => {
+const CreateProfessor = ({ onOpenChange }: CreateProfessorProps) => {
+    const [createProfessor, {isLoading}] = useCreateProfessorMutation()
     const form = useForm<z.infer<typeof professorSchema>>({
             resolver: zodResolver(professorSchema),
             defaultValues: {
@@ -29,7 +31,18 @@ const CreateProfessor = ({ open, onOpenChange }: CreateProfessorProps) => {
         })
     
         async function onSubmit(values: z.infer<typeof professorSchema>) {
-            console.log(values);
+            try {
+                await createProfessor(values).unwrap()
+                toast('New Schedule Created Successfully')
+                onOpenChange(false);
+                form.reset();
+            } catch (err: unknown) {
+                if (err && typeof err === 'object' && 'data' in err && err.data && typeof err.data === 'object' && 'error' in err.data) {
+                toast((err.data as { error: string }).error);
+            } else {
+                toast('An unexpected error occurred');
+            }
+            }
         }
 
   return (
@@ -143,7 +156,7 @@ const CreateProfessor = ({ open, onOpenChange }: CreateProfessorProps) => {
                     <DialogClose asChild> 
                         <Button variant={'outline'} className='border-zinc-400 cursor-pointer'>Cancel</Button>
                     </DialogClose>
-                    <Button type="submit" className='bg-[#0b6602] hover:bg-[#084e02] cursor-pointer'>Create</Button>
+                    <Button type="submit" className='bg-[#0b6602] hover:bg-[#084e02] cursor-pointer'>{isLoading ? 'Creating' : 'Create'}</Button>
                 </div>
             </form>
         </Form>

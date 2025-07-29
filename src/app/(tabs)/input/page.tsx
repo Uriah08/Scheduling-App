@@ -20,44 +20,44 @@ const InputPage = () => {
         <div className='p-3 rounded-xl border border-zinc-300 flex-col gap-3'>
           <div className='flex justify-between items-center'>
             <h1 className='text-xl font-semibold'>Professors</h1>
-            <Dialog>
+            <Dialog open={openProfessorDialog} onOpenChange={setOpenProfessorDialog}>
               <DialogTrigger asChild>
                 <Button className='bg-[#0b6602] hover:bg-[#0b7804] text-white cursor-pointer'>Add Professor</Button>
               </DialogTrigger>
-              <CreateProfessor open={openProfessorDialog} onOpenChange={setOpenProfessorDialog}/>
+              <CreateProfessor onOpenChange={setOpenProfessorDialog}/>
             </Dialog>
           </div>
         </div>
         <div className='p-3 rounded-xl border border-zinc-300 flex-col gap-3'>
           <div className='flex justify-between items-center'>
             <h1 className='text-xl font-semibold'>Courses</h1>
-            <Dialog>
+            <Dialog open={openCourseDialog} onOpenChange={setOpenCourseDialog}>
               <DialogTrigger asChild>
                 <Button className='bg-[#0b6602] hover:bg-[#0b7804] text-white cursor-pointer'>Add Course</Button>
               </DialogTrigger>
-              <CreateCourse open={openCourseDialog} onOpenChange={setOpenCourseDialog}/>
+              <CreateCourse onOpenChange={setOpenCourseDialog}/>
             </Dialog>
           </div>
         </div>
         <div className='p-3 rounded-xl border border-zinc-300 flex-col gap-3'>
           <div className='flex justify-between items-center'>
             <h1 className='text-xl font-semibold'>Room</h1>
-            <Dialog>
+            <Dialog open={openRoomDialog} onOpenChange={setOpenRoomDialog}>
               <DialogTrigger asChild>
                 <Button className='bg-[#0b6602] hover:bg-[#0b7804] text-white cursor-pointer'>Add Room</Button>
               </DialogTrigger>
-              <CreateRoom open={openRoomDialog} onOpenChange={setOpenRoomDialog}/>
+              <CreateRoom onOpenChange={setOpenRoomDialog}/>
             </Dialog>
           </div>
         </div>
         <div className='p-3 rounded-xl border border-zinc-300 flex-col gap-3'>
           <div className='flex justify-between items-center'>
             <h1 className='text-xl font-semibold'>Section</h1>
-            <Dialog>
+            <Dialog open={openSectionDialog} onOpenChange={setOpenSectionDialog}>
               <DialogTrigger asChild>
                 <Button className='bg-[#0b6602] hover:bg-[#0b7804] text-white cursor-pointer'>Add Section</Button>
               </DialogTrigger>
-              <CreateSection open={openSectionDialog} onOpenChange={setOpenSectionDialog}/>
+              <CreateSection onOpenChange={setOpenSectionDialog}/>
             </Dialog>
           </div>
         </div>

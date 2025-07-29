@@ -1,3 +1,5 @@
+'use client'
+
 import { roomSchema } from '@/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react'
@@ -7,13 +9,15 @@ import { DialogClose, DialogContent, DialogTitle } from '../ui/dialog';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
+import { useCreateRoomMutation } from '@/store/api';
+import { toast } from 'sonner';
 
 type CreateRoomProps = {
-    open: boolean;
     onOpenChange: (open: boolean) => void;
 }
 
-const CreateRoom = ({ open, onOpenChange }: CreateRoomProps) => {
+const CreateRoom = ({ onOpenChange }: CreateRoomProps) => {
+    const [createRoom, { isLoading }] = useCreateRoomMutation()
     const form = useForm<z.infer<typeof roomSchema>>({
             resolver: zodResolver(roomSchema),
             defaultValues: {
@@ -22,7 +26,15 @@ const CreateRoom = ({ open, onOpenChange }: CreateRoomProps) => {
         })
     
         async function onSubmit(values: z.infer<typeof roomSchema>) {
-            console.log(values);
+            try {
+                await createRoom(values).unwrap()
+                toast('New Room Created Successfully')
+                onOpenChange(false);
+                form.reset();
+            } catch (err: unknown) {
+                console.log(err);
+                
+            }
         }
 
   return (
@@ -47,7 +59,7 @@ const CreateRoom = ({ open, onOpenChange }: CreateRoomProps) => {
                     <DialogClose asChild> 
                         <Button variant={'outline'} className='border-zinc-400 cursor-pointer'>Cancel</Button>
                     </DialogClose>
-                    <Button type="submit" className='bg-[#0b6602] hover:bg-[#084e02] cursor-pointer'>Create</Button>
+                    <Button type="submit" className='bg-[#0b6602] hover:bg-[#084e02] cursor-pointer'>{isLoading ? 'Creating' : 'Create'}</Button>
                 </div>
             </form>
         </Form>

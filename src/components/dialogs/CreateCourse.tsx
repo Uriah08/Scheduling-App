@@ -10,9 +10,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Button } from '../ui/button';
 import { Checkbox } from '../ui/checkbox';
+import { useCreateCourseMutation } from '@/store/api';
+import { toast } from 'sonner';
 
 type CreateProfessorProps = {
-    open: boolean;
     onOpenChange: (open: boolean) => void;
 }
 
@@ -31,22 +32,30 @@ const prerequisites = [
   }
 ] as const
 
-const CreateCourse = ({ open, onOpenChange }: CreateProfessorProps) => {
+const CreateCourse = ({ onOpenChange }: CreateProfessorProps) => {
+    const [createCourse, {isLoading}] = useCreateCourseMutation()
     const form = useForm<z.infer<typeof courseSchema>>({
             resolver: zodResolver(courseSchema),
             defaultValues: {
                 code: "",
                 title: "",
-                creditLec: 1,
-                creditLab: 0,
-                contactLec: 1,
-                contactLab: 0,
+                creditLec: "1",
+                creditLab: "0",
+                contactLec: "1",
+                contactLab: "0",
                 prerequisites: []
             },
         })
     
         async function onSubmit(values: z.infer<typeof courseSchema>) {
-            console.log(values);
+            try {
+                await createCourse(values).unwrap()
+                toast('New Course Created Successfully')
+                onOpenChange(false);
+                form.reset();
+            } catch (err: unknown) {
+                console.log(err);
+            }
         }
 
   return (

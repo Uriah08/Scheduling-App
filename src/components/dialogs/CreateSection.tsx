@@ -7,13 +7,15 @@ import { DialogClose, DialogContent, DialogTitle } from '../ui/dialog';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
 import { Button } from '../ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { useCreateSectionMutation } from '@/store/api';
+import { toast } from 'sonner';
 
 type CreateSectionProps = {
-    open: boolean;
     onOpenChange: (open: boolean) => void;
 }
 
-const CreateSection = ({ open, onOpenChange }: CreateSectionProps) => {
+const CreateSection = ({ onOpenChange }: CreateSectionProps) => {
+    const [createSection, { isLoading}] = useCreateSectionMutation()
     const form = useForm<z.infer<typeof sectionSchema>>({
             resolver: zodResolver(sectionSchema),
             defaultValues: {
@@ -24,7 +26,14 @@ const CreateSection = ({ open, onOpenChange }: CreateSectionProps) => {
         })
     
         async function onSubmit(values: z.infer<typeof sectionSchema>) {
-            console.log(values);
+            try {
+                await createSection(values).unwrap()
+                toast('New Room Created Successfully')
+                onOpenChange(false);
+                form.reset();
+            } catch (err: unknown) {
+                console.log(err);
+            }
         }
 
   return (
@@ -105,7 +114,7 @@ const CreateSection = ({ open, onOpenChange }: CreateSectionProps) => {
                     <DialogClose asChild> 
                         <Button variant={'outline'} className='border-zinc-400 cursor-pointer'>Cancel</Button>
                     </DialogClose>
-                    <Button type="submit" className='bg-[#0b6602] hover:bg-[#084e02] cursor-pointer'>Create</Button>
+                    <Button type="submit" className='bg-[#0b6602] hover:bg-[#084e02] cursor-pointer'>{isLoading ? 'Creating' : 'Create'}</Button>
                 </div>
             </form>
         </Form>

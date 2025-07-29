@@ -36,10 +36,10 @@ export const courseSchema = z.object({
   title: z.string().min(2, {
     message: "Course title is required"
   }),
-  creditLec: z.number().min(1),
-  creditLab: z.number().optional(),
-  contactLec: z.number().min(1),
-  contactLab: z.number().optional(),
+  creditLec: z.string().min(1),
+  creditLab: z.string().optional(),
+  contactLec: z.string().min(1),
+  contactLab: z.string().optional(),
   prerequisites: z.array(z.string()).optional(),
 })
 

@@ -41,3 +41,15 @@ model Course {
   contactLab    Int @default(0)
   prerequisites String[]
 }
+
+model Section {
+  id          String @id @default(uuid())
+  type        String
+  year        String
+  section     String
+}
+
+model Room {
+  id    String @id @default(uuid())
+  name  String @unique
+}

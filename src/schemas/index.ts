@@ -36,11 +36,29 @@ export const courseSchema = z.object({
   title: z.string().min(2, {
     message: "Course title is required"
   }),
-  creditLec: z.number().min(1),
-  creditLab: z.number().optional(),
-  contactLec: z.number().min(1),
-  contactLab: z.number().optional(),
+  creditLec: z.string().min(1),
+  creditLab: z.string().optional(),
+  contactLec: z.string().min(1),
+  contactLab: z.string().optional(),
   prerequisites: z.array(z.string()).optional(),
+})
+
+export const sectionSchema = z.object({
+  type: z.string().min(1, {
+    message: "Section type is required"
+  }),
+  year: z.string().min(1, {
+    message: "Year is required"
+  }),
+  section: z.string().min(1, {
+    message: "Section name is required"
+  })
+})
+
+export const roomSchema = z.object({
+  name: z.string().min(2, {
+    message: "Room name is required"
+  }),
 })
 
 export const acadRank = [

@@ -27,6 +27,12 @@ export const professorSchema = z.object({
 })
 
 export const courseSchema = z.object({
+  year: z.string().min(1, {
+    message: "Please select a year"
+  }),
+  semester: z.string().min(1, {
+    message: "Please selec a semester"
+  }),
   program: z.string().min(1, {
     message: "Please select a program"
   }),

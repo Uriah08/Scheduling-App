@@ -1,8 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { Schedule, Professor, Course, Room, Section } from "@/generated/prisma";
 
-type ScheduleResponse = {
+type SchedulesResponse = {
   schedules?: Schedule[];
+}
+
+type ScheduleResponse = {
+  schedules?: Schedule;
 }
 
 type ProfessorResponse = {
@@ -39,13 +43,21 @@ export const api = createApi({
       }),
       invalidatesTags: ['Schedule'],
     }),
-    getSchedules: build.query<ScheduleResponse, void>({
+    getSchedules: build.query<SchedulesResponse, void>({
       query: () => ({
         url: "/schedules",
         method: "GET",
       }),
       providesTags: ['Schedule'],
     }),
+    getSchedule: build.query<ScheduleResponse, string>({
+      query: (id) => ({
+        url: `/schedules/one?id=${id}`,
+        method: "GET",
+      }),
+      providesTags: ['Schedule'],
+    }),
+
     createProfessor: build.mutation({
       query: (data) => ({
         url: "/professors",
@@ -103,6 +115,7 @@ export const api = createApi({
 export const { 
   useCreateScheduleMutation,
   useGetSchedulesQuery,
+  useGetScheduleQuery,
   useCreateProfessorMutation,
   useCreateCourseMutation,
   useCreateRoomMutation,

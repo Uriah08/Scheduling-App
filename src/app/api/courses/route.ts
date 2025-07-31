@@ -14,10 +14,12 @@ export async function POST(request: Request) {
             );
         }
 
-        const { program, code, title, creditLec, creditLab, contactLec, contactLab, prerequisites } = parsed.data
+        const { program, code, title, creditLec, creditLab, contactLec, contactLab, prerequisites, year, semester } = parsed.data
 
         await prisma.course.create({
             data: {
+                year,
+                semester,
                 program,
                 code,
                 title,

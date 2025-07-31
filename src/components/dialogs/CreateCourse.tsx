@@ -37,6 +37,8 @@ const CreateCourse = ({ onOpenChange }: CreateProfessorProps) => {
     const form = useForm<z.infer<typeof courseSchema>>({
             resolver: zodResolver(courseSchema),
             defaultValues: {
+                year: "",
+                semester: "",
                 code: "",
                 title: "",
                 creditLec: "1",
@@ -62,172 +64,217 @@ const CreateCourse = ({ onOpenChange }: CreateProfessorProps) => {
     <DialogContent>
         <DialogTitle>Create Course</DialogTitle>
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3 mt-5">
-                <FormField
-                control={form.control}
-                name="program"
-                render={({ field }) => (
-                    <FormItem>
-                    <FormLabel>Program</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl className='w-full'>
-                        <SelectTrigger>
-                            <SelectValue placeholder="Select program"/>
-                        </SelectTrigger>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="mt-5 space-y-2">
+                    <FormField
+                    control={form.control}
+                    name="year"
+                    render={({ field }) => (
+                        <FormItem>
+                        <FormLabel>Year</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl className='w-full'>
+                            <SelectTrigger>
+                                <SelectValue placeholder="Select year"/>
+                            </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                            <SelectItem value="1st">1st</SelectItem>
+                            <SelectItem value="2nd">2nd</SelectItem>
+                            <SelectItem value="3rd">3rd</SelectItem>
+                            <SelectItem value="4th">4th</SelectItem>
+                            <SelectItem value="5th">5th</SelectItem>
+                            </SelectContent>
+                        </Select>
+                        <FormMessage />
+                        </FormItem>
+                    )}
+                    />
+                    <FormField
+                    control={form.control}
+                    name="semester"
+                    render={({ field }) => (
+                        <FormItem>
+                        <FormLabel>Program</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl className='w-full'>
+                            <SelectTrigger>
+                                <SelectValue placeholder="Select program"/>
+                            </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                            <SelectItem value="First Semester">First Semester</SelectItem>
+                            <SelectItem value="Second Semester">Second Semester</SelectItem>
+                            </SelectContent>
+                        </Select>
+                        <FormMessage />
+                        </FormItem>
+                    )}
+                    />
+                    <FormField
+                    control={form.control}
+                    name="program"
+                    render={({ field }) => (
+                        <FormItem>
+                        <FormLabel>Program</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl className='w-full'>
+                            <SelectTrigger>
+                                <SelectValue placeholder="Select program"/>
+                            </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                            <SelectItem value="Information Technology">Information Technology</SelectItem>
+                            <SelectItem value="Computer Science">Computer Science</SelectItem>
+                            </SelectContent>
+                        </Select>
+                        <FormMessage />
+                        </FormItem>
+                    )}
+                    />
+                    <FormField
+                    control={form.control}
+                    name="code"
+                    render={({ field }) => (
+                        <FormItem>
+                        <FormLabel>Code</FormLabel>
+                        <FormControl>
+                            <Input placeholder="Code" {...field}/>
                         </FormControl>
-                        <SelectContent>
-                        <SelectItem value="Information Technology">Information Technology</SelectItem>
-                        <SelectItem value="Computer Science">Computer Science</SelectItem>
-                        </SelectContent>
-                    </Select>
-                    <FormMessage />
-                    </FormItem>
-                )}
-                />
-                <FormField
-                control={form.control}
-                name="code"
-                render={({ field }) => (
-                    <FormItem>
-                    <FormLabel>Code</FormLabel>
-                    <FormControl>
-                        <Input placeholder="Code" {...field}/>
-                    </FormControl>
-                    <FormMessage />
-                    </FormItem>
-                    )}
-                />
-                <FormField
-                control={form.control}
-                name="title"
-                render={({ field }) => (
-                    <FormItem>
-                    <FormLabel>Course Title</FormLabel>
-                    <FormControl>
-                        <Input placeholder="Course TItle" {...field}/>
-                    </FormControl>
-                    <FormMessage />
-                    </FormItem>
-                    )}
-                />
-                <div className='flex flex-col gap-3'>
-                    <h1 className='text-normal font-medium'>Credit</h1>
-                    <div className='grid grid-cols-2 gap-3'>
-                        <FormField
-                        control={form.control}
-                        name="creditLec"
-                        render={({ field }) => (
-                            <FormItem>
-                            <FormLabel>Lecture</FormLabel>
-                            <FormControl>
-                                <Input type='number' {...field}/>
-                            </FormControl>
-                            <FormMessage />
-                            </FormItem>
-                            )}
-                        />
-                        <FormField
-                        control={form.control}
-                        name="creditLab"
-                        render={({ field }) => (
-                            <FormItem>
-                            <FormLabel>Laboratory</FormLabel>
-                            <FormControl>
-                                <Input type='number' {...field}/>
-                            </FormControl>
-                            <FormMessage />
-                            </FormItem>
-                            )}
-                        />
-                    </div>
-                    <h1 className='text-normal font-medium'>Contact Hours</h1>
-                    <div className='grid grid-cols-2 gap-3'>
-                        <FormField
-                        control={form.control}
-                        name="contactLec"
-                        render={({ field }) => (
-                            <FormItem>
-                            <FormLabel>Lecture</FormLabel>
-                            <FormControl>
-                                <Input type='number' {...field}/>
-                            </FormControl>
-                            <FormMessage />
-                            </FormItem>
-                            )}
-                        />
-                        <FormField
-                        control={form.control}
-                        name="contactLab"
-                        render={({ field }) => (
-                            <FormItem>
-                            <FormLabel>Laboratory</FormLabel>
-                            <FormControl>
-                                <Input type='number' {...field}/>
-                            </FormControl>
-                            <FormMessage />
-                            </FormItem>
-                            )}
-                        />
-                    </div>
-                </div>
-                <FormLabel>Prerequisites</FormLabel>
-                <Popover>
-                    <PopoverTrigger asChild>
-                        <button className='text-sm text-zinc-500 py-2 px-3 border rounded-sm w-full text-start cursor-text'>Pick Prerequisites</button>
-                    </PopoverTrigger>
-                    <PopoverContent className="max-w-96">
-                        <FormField
-                        control={form.control}
-                        name="prerequisites"
-                        render={() => (
-                            <FormItem>
-                            <div className="mb-4">
-                                <FormLabel className="text-base">Code</FormLabel>
-                            </div>
-                            {prerequisites.map((item) => (
-                                <FormField
-                                key={item.id}
-                                control={form.control}
-                                name="prerequisites"
-                                render={({ field }) => {
-                                    return (
-                                    <FormItem
-                                        key={item.id}
-                                        className="flex flex-row items-center gap-2"
-                                    >
-                                        <FormControl>
-                                        <Checkbox
-                                            checked={field.value?.includes(item.id)}
-                                            onCheckedChange={(checked) => {
-                                            return checked
-                                                ? field.onChange([...(field.value ?? []), item.id])
-                                                : field.onChange(
-                                                    field.value?.filter(
-                                                    (value) => value !== item.id
-                                                    )
-                                                )
-                                            }}
-                                        />
-                                        </FormControl>
-                                        <FormLabel className="text-sm font-normal">
-                                        {item.label}
-                                        </FormLabel>
-                                    </FormItem>
-                                    )
-                                }}
-                                />
-                            ))}
-                            <FormMessage />
-                            </FormItem>
+                        <FormMessage />
+                        </FormItem>
                         )}
-                        />
-                    </PopoverContent>
-                </Popover>
+                    />
+                    <FormField
+                    control={form.control}
+                    name="title"
+                    render={({ field }) => (
+                        <FormItem>
+                        <FormLabel>Course Title</FormLabel>
+                        <FormControl>
+                            <Input placeholder="Course TItle" {...field}/>
+                        </FormControl>
+                        <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    <div className='flex flex-col gap-3'>
+                        <h1 className='text-normal font-medium'>Credit</h1>
+                        <div className='grid grid-cols-2 gap-3'>
+                            <FormField
+                            control={form.control}
+                            name="creditLec"
+                            render={({ field }) => (
+                                <FormItem>
+                                <FormLabel>Lecture</FormLabel>
+                                <FormControl>
+                                    <Input type='number' {...field}/>
+                                </FormControl>
+                                <FormMessage />
+                                </FormItem>
+                                )}
+                            />
+                            <FormField
+                            control={form.control}
+                            name="creditLab"
+                            render={({ field }) => (
+                                <FormItem>
+                                <FormLabel>Laboratory</FormLabel>
+                                <FormControl>
+                                    <Input type='number' {...field}/>
+                                </FormControl>
+                                <FormMessage />
+                                </FormItem>
+                                )}
+                            />
+                        </div>
+                        <h1 className='text-normal font-medium'>Contact Hours</h1>
+                        <div className='grid grid-cols-2 gap-3'>
+                            <FormField
+                            control={form.control}
+                            name="contactLec"
+                            render={({ field }) => (
+                                <FormItem>
+                                <FormLabel>Lecture</FormLabel>
+                                <FormControl>
+                                    <Input type='number' {...field}/>
+                                </FormControl>
+                                <FormMessage />
+                                </FormItem>
+                                )}
+                            />
+                            <FormField
+                            control={form.control}
+                            name="contactLab"
+                            render={({ field }) => (
+                                <FormItem>
+                                <FormLabel>Laboratory</FormLabel>
+                                <FormControl>
+                                    <Input type='number' {...field}/>
+                                </FormControl>
+                                <FormMessage />
+                                </FormItem>
+                                )}
+                            />
+                        </div>
+                    </div>
+                    <FormLabel>Prerequisites</FormLabel>
+                    <Popover>
+                        <PopoverTrigger asChild>
+                            <button className='text-sm text-zinc-500 py-2 px-3 border rounded-sm w-full text-start cursor-text'>Pick Prerequisites</button>
+                        </PopoverTrigger>
+                        <PopoverContent className="max-w-96">
+                            <FormField
+                            control={form.control}
+                            name="prerequisites"
+                            render={() => (
+                                <FormItem>
+                                <div className="mb-4">
+                                    <FormLabel className="text-base">Code</FormLabel>
+                                </div>
+                                {prerequisites.map((item) => (
+                                    <FormField
+                                    key={item.id}
+                                    control={form.control}
+                                    name="prerequisites"
+                                    render={({ field }) => {
+                                        return (
+                                        <FormItem
+                                            key={item.id}
+                                            className="flex flex-row items-center gap-2"
+                                        >
+                                            <FormControl>
+                                            <Checkbox
+                                                checked={field.value?.includes(item.id)}
+                                                onCheckedChange={(checked) => {
+                                                return checked
+                                                    ? field.onChange([...(field.value ?? []), item.id])
+                                                    : field.onChange(
+                                                        field.value?.filter(
+                                                        (value) => value !== item.id
+                                                        )
+                                                    )
+                                                }}
+                                            />
+                                            </FormControl>
+                                            <FormLabel className="text-sm font-normal">
+                                            {item.label}
+                                            </FormLabel>
+                                        </FormItem>
+                                        )
+                                    }}
+                                    />
+                                ))}
+                                <FormMessage />
+                                </FormItem>
+                            )}
+                            />
+                        </PopoverContent>
+                    </Popover>
                 <div className='flex w-full justify-end gap-3'>
                     <DialogClose asChild> 
                         <Button variant={'outline'} className='border-zinc-400 cursor-pointer'>Cancel</Button>
                     </DialogClose>
-                    <Button type="submit" className='bg-[#0b6602] hover:bg-[#084e02] cursor-pointer'>Create</Button>
+                    <Button type="submit" className='bg-[#0b6602] hover:bg-[#084e02] cursor-pointer'>{isLoading ? 'Creating' : 'Create'}</Button>
                 </div>
             </form>
         </Form>

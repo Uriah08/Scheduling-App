@@ -32,6 +32,8 @@ model Professor {
 
 model Course {
   id            String @id @default(uuid())
+  year          String
+  semester      String
   program       String
   code          String
   title         String

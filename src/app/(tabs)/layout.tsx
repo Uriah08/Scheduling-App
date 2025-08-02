@@ -1,6 +1,6 @@
 'use client';
 
-import { BookCheck, BookCopy, Calendar, GraduationCap, Plus, School } from 'lucide-react';
+import { BookCheck, BookCopy, Calendar, GraduationCap, LayoutPanelTop, Plus, School } from 'lucide-react';
 import React from 'react'
 import Image from 'next/image';
 import Link from 'next/link';
@@ -15,6 +15,7 @@ const sidebarItems = [
   { name: 'Professors', icon: GraduationCap, href: '/professors' },
   { name: 'Classrooms', icon: School, href: '/classrooms' },
   { name: 'Courses', icon: BookCheck, href: '/courses' },
+  { name: 'Sections', icon: LayoutPanelTop, href: '/sections' },
 ]
 const TabLayout = ({ children }: Props ) => {
   const [activeTab, setActiveTab] = useState('Schedules');
@@ -38,27 +39,7 @@ const TabLayout = ({ children }: Props ) => {
                     <Link href={item.href} className='text-white text-[22px] px-4'>{item.name}</Link>
                   </div>
                   ))}
-                  {/* <div className='flex flex-row gap-2 mt-5 items-center justify-center py-2 px-2 rounded-2xl hover:bg-[#233d00] transition-all duration-300 cursor-pointer'>
-                    <Calendar className='text-white' size={35} />
-                    <Link href={'/home'} className='text-white text-[22px] px-6'>SCHEDULES</Link>
-                  </div>
-
-                   <div className='flex flex-row gap-2 mt-5 items-center justify-center py-2 px-2 rounded-2xl hover:bg-[#233d00] transition-all duration-300 cursor-pointer'>
-                    <Calendar className='text-white' size={35} />
-                    <Link href={'/home'} className='text-white text-[22px] px-4'>PROFESSORS</Link>
-                  </div>
-
-                   <div className='flex flex-row gap-2 mt-5 items-center justify-center py-2 px-2 rounded-2xl hover:bg-[#233d00] transition-all duration-300 cursor-pointer'>
-                    <Calendar className='text-white' size={35} />
-                    <Link href={'/home'} className='text-white text-[22px] px-2'>CLASSROOMS</Link>
-                  </div>
-
-                   <div className='flex flex-row gap-2 mt-5 items-center justify-center py-2 px-2 rounded-2xl hover:bg-[#233d00] transition-all duration-300 cursor-pointer'>
-                    <Calendar className='text-white' size={35} />
-                    <Link href={'/home'} className='text-white text-[22px] px-9'>COURSES</Link>
-                  </div> */}
-                  
-                  
+                                 
                 </div>
 
               </div>

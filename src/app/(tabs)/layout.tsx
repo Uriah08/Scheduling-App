@@ -20,8 +20,8 @@ const sidebarItems = [
 const TabLayout = ({ children }: Props ) => {
   const [activeTab, setActiveTab] = useState('Schedules');
   return (
-    <div className='flex'>
-        <div className='flex flex-col min-w-[250px] bg-linear-to-t from-[#0f8b09] to-[#0bcb0d] h-[100vh] items-center'>
+    <div className='flex flex-row'>
+        <div className='flex flex-col min-w-[280px] bg-[#022001] items-center rounded-tr-2xl rounded-br-2xl h-[100vh]'>
                 <Link href={'/'} className='flex items-center mt-5 gap-3'>
                   <Image src={'/cvsu-logo.png'} alt='logo' width={50} height={50} className='rounded-full' />
                   <h1 className='text-white text-[17px] font-bold'>CVSU SCHEDULING</h1>

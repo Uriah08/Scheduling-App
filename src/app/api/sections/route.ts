@@ -24,9 +24,20 @@ export async function POST(request: Request) {
             }
         })
 
-        return NextResponse.json({ message: "Room Section Successfully" }, { status: 200 });
+        return NextResponse.json({ message: "Created Section Successfully" }, { status: 200 });
     } catch (error) {
         console.error("Error creating schedule:", error);
         return NextResponse.json({ error: "Failed to create schedule" }, { status: 500 });
+    }
+}
+
+export async function GET() {
+    try {
+        const sections = await prisma.section.findMany({});
+        
+        return NextResponse.json({sections}, { status: 200 });
+    } catch (error) {
+        console.error("Error creating section:", error);
+        return NextResponse.json({ error: "Failed to get sections" }, { status: 500 });
     }
 }

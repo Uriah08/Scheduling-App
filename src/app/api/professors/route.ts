@@ -34,11 +34,11 @@ export async function POST(request: Request) {
 
 export async function GET() {
     try {
-
-
-        return NextResponse.json({ message: "Get Successfull"}, { status: 200 });
+        const professors = await prisma.professor.findMany({});
+        
+        return NextResponse.json({professors}, { status: 200 });
     } catch (error) {
-        console.error("Error creating schedule:", error);
-        return NextResponse.json({ error: "Failed to get schedule" }, { status: 500 });
+        console.error("Error creating professor:", error);
+        return NextResponse.json({ error: "Failed to get professor" }, { status: 500 });
     }
 }

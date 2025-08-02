@@ -20,6 +20,7 @@ model Schedule {
   description String?
   year        String
   semester    String
+  courseAssignments CourseAssignment[]
 }
 
 model Professor {
@@ -28,6 +29,7 @@ model Professor {
   lastName      String
   middleInitial String?
   acadRank      String
+  courseAssignments CourseAssignment[]
 }
 
 model Course {
@@ -40,6 +42,9 @@ model Course {
   contactLec    Int
   contactLab    Int @default(0)
   prerequisites String[]
+  year          String
+  semester      String
+  courseAssignments CourseAssignment[]
 }
 
 model Section {
@@ -52,4 +57,16 @@ model Section {
 model Room {
   id    String @id @default(uuid())
   name  String @unique
+}
+
+model CourseAssignment {
+  id          String    @id @default(uuid())
+  schedule    Schedule  @relation(fields: [scheduleId], references: [id])
+  scheduleId  String
+
+  professor   Professor @relation(fields: [professorId], references: [id])
+  professorId String
+
+  course      Course    @relation(fields: [courseId], references: [id])
+  courseId    String
 }

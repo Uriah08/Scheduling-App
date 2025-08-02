@@ -28,6 +28,8 @@ import {
 } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
+import { HTML5Backend } from 'react-dnd-html5-backend'
+import { DndProvider } from 'react-dnd'
 
 
 /* REDUX PERSISTENCE */
@@ -100,7 +102,9 @@ export default function StoreProvider({
   return (
     <Provider store={storeRef.current}>
       <PersistGate loading={null} persistor={persistor}>
+        <DndProvider backend={HTML5Backend}>
           {children}
+        </DndProvider>
       </PersistGate>
     </Provider>
   );

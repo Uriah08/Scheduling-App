@@ -35,7 +35,6 @@ export async function POST(request: Request) {
 export async function GET() {
     try {
         const schedules = await prisma.schedule.findMany({});
-        console.log("schedules", schedules);
         
         return NextResponse.json({schedules}, { status: 200 });
     } catch (error) {

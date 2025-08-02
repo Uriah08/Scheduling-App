@@ -4,8 +4,11 @@ import CreateSchedule from '@/components/dialogs/CreateSchedule'
 import { Dialog } from '@/components/ui/dialog'
 import React, { useEffect } from 'react'
 import { useGetSchedulesQuery } from '@/store/api'
+import { Button } from '@/components/ui/button'
+import { useRouter } from 'next/navigation'
 
 const Homepage = () => {
+  const router = useRouter()
   const [open, setOpen] = React.useState(false);
   const { data, isLoading } = useGetSchedulesQuery();
   const schedules = data?.schedules || [];
@@ -24,12 +27,13 @@ const Homepage = () => {
           <p className='text-sm text-zinc-500'>{schedule.description}</p>
           <h1 className='font-semibold text-sm'>Year: <span className='text-sm font-normal text-zinc-500 '>{schedule.year}</span></h1>
           <h1 className='font-semibold text-sm'>Semester: <span className='text-sm font-normal text-zinc-500 '>{schedule.semester}</span></h1>
+          <Button onClick={() => router.push(`/${schedule.id}`)}>Edit</Button>
         </div>
         ))}
       </div>
       <Dialog onOpenChange={setOpen} open={open}>
           <button onClick={() => setOpen(true)} className='absolute bottom-5 right-5 py-3 px-5 bg-[#0b6602] rounded-full hover:bg-[#0b7804] text-white cursor-pointer'>Add Schedule</button>
-        <CreateSchedule open={open} onOpenChange={setOpen}/>
+        <CreateSchedule onOpenChange={setOpen}/>
       </Dialog>
     </div>
   )

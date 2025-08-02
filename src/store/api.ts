@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { Schedule, Professor, Course, Room, Section } from "@/generated/prisma";
 
-type ScheduleResponse = {
+type SchedulesResponse = {
   schedules?: Schedule[];
 }
 
@@ -21,6 +21,43 @@ type SectionResponse = {
   sections?: Section[]
 }
 
+type GetAllResponse = {
+  status: number;
+  data: {
+    professors: {
+      id: string;
+      firstName: string;
+      lastName: string;
+      middleInitial?: string;
+      acadRank: string;
+    }[];
+    courses: {
+      id: string;
+      program: string;
+      code: string;
+      title: string;
+      creditLec: number;
+      creditLab: number;
+      contactLec: number;
+      contactLab: number;
+      prerequisites: string[];
+      year: string;
+      semester: string;
+    }[];
+    sections: {
+      id: string;
+      type: string;
+      year: string;
+      section: string;
+    }[];
+    rooms: {
+      id: string;
+      name: string;
+    }[];
+  };
+};
+
+
 export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
@@ -39,9 +76,16 @@ export const api = createApi({
       }),
       invalidatesTags: ['Schedule'],
     }),
-    getSchedules: build.query<ScheduleResponse, void>({
+    getSchedules: build.query<SchedulesResponse, void>({
       query: () => ({
         url: "/schedules",
+        method: "GET",
+      }),
+      providesTags: ['Schedule'],
+    }),
+    getSchedule: build.query<Schedule, string>({
+      query: (id) => ({
+        url: `/schedules/${id}`,
         method: "GET",
       }),
       providesTags: ['Schedule'],
@@ -75,6 +119,13 @@ export const api = createApi({
       }),
       invalidatesTags: ['Course'],
     }),
+    getCourses: build.query<CourseResponse, void>({
+      query: () => ({
+        url: "/courses",
+        method: "GET",
+      }),
+      providesTags: ['Course'],
+    }),
     createRoom: build.mutation({
       query: (data) => ({
         url: "/rooms",
@@ -85,6 +136,13 @@ export const api = createApi({
         },
       }),
       invalidatesTags: ['Room'],
+    }),
+    getRooms: build.query<RoomResponse, void>({
+      query: () => ({
+        url: "/rooms",
+        method: "GET",
+      }),
+      providesTags: ['Room'],
     }),
     createSection: build.mutation({
       query: (data) => ({
@@ -97,14 +155,34 @@ export const api = createApi({
       }),
       invalidatesTags: ['Section'],
     }),
+    getSections: build.query<SectionResponse, void>({
+      query: () => ({
+        url: "/section",
+        method: "GET",
+      }),
+      providesTags: ['Section'],
+    }),
+    getAll: build.query<GetAllResponse, void>({
+      query: () => ({
+        url: "/all",
+        method: "GET",
+      }),
+      providesTags: ['Section','Schedule','Room','Course','Professor'],
+    }),
   }),
 });
 
 export const { 
   useCreateScheduleMutation,
   useGetSchedulesQuery,
+  useGetScheduleQuery,
   useCreateProfessorMutation,
+  useGetProfessorsQuery,
   useCreateCourseMutation,
+  useGetCoursesQuery,
   useCreateRoomMutation,
-  useCreateSectionMutation
+  useGetRoomsQuery,
+  useCreateSectionMutation,
+  useGetSectionsQuery,
+  useGetAllQuery
 } = api;

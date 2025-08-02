@@ -35,3 +35,14 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: "Failed to create schedule" }, { status: 500 });
     }
 }
+
+export async function GET() {
+    try {
+        const courses = await prisma.course.findMany({});
+        
+        return NextResponse.json({courses}, { status: 200 });
+    } catch (error) {
+        console.error("Error creating course:", error);
+        return NextResponse.json({ error: "Failed to get course" }, { status: 500 });
+    }
+}

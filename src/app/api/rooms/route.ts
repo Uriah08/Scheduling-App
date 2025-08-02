@@ -28,3 +28,14 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: "Failed to create schedule" }, { status: 500 });
     }
 }
+
+export async function GET() {
+    try {
+        const rooms = await prisma.room.findMany({});
+        
+        return NextResponse.json({rooms}, { status: 200 });
+    } catch (error) {
+        console.error("Error creating room:", error);
+        return NextResponse.json({ error: "Failed to get room" }, { status: 500 });
+    }
+}

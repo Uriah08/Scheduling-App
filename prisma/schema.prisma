@@ -21,6 +21,7 @@ model Schedule {
   year        String
   semester    String
   courseAssignments CourseAssignment[]
+  sections          Section[]
 }
 
 model Professor {
@@ -52,6 +53,8 @@ model Section {
   type        String
   year        String
   section     String
+  schedule     Schedule @relation(fields: [scheduleId], references: [id])
+  scheduleId   String
 }
 
 model Room {

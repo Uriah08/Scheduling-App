@@ -12,9 +12,10 @@ import { toast } from 'sonner';
 
 type CreateSectionProps = {
     onOpenChange: (open: boolean) => void;
+    id: string
 }
 
-const CreateSection = ({ onOpenChange }: CreateSectionProps) => {
+const CreateSection = ({ onOpenChange, id }: CreateSectionProps) => {
     const [createSection, { isLoading}] = useCreateSectionMutation()
     const form = useForm<z.infer<typeof sectionSchema>>({
             resolver: zodResolver(sectionSchema),
@@ -25,8 +26,12 @@ const CreateSection = ({ onOpenChange }: CreateSectionProps) => {
             },
         })
     
-        async function onSubmit(values: z.infer<typeof sectionSchema>) {
+        async function onSubmit(valuess: z.infer<typeof sectionSchema>) {
             try {
+                const values = {
+                    ...valuess,
+                    id,
+                };
                 await createSection(values).unwrap()
                 toast('New Room Created Successfully')
                 onOpenChange(false);

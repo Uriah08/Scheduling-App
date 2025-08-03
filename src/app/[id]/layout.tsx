@@ -1,6 +1,6 @@
 'use client'
 
-import { useGetRoomsQuery, useGetScheduleQuery, useGetProfessorsQuery } from '@/store/api'
+import { useGetRoomsQuery, useGetScheduleQuery, useGetProfessorsQuery, useGetTestQuery } from '@/store/api'
 import { Blinds, BookOpenCheck, ChevronDown, ChevronRight, GraduationCap, Home, HousePlus } from 'lucide-react'
 import Image from 'next/image'
 import React, { ReactNode, use, useState } from 'react'
@@ -15,14 +15,16 @@ const ScheduleLayout = ({ children, params }: ScheduleLayoutProps) => {
     const router = useRouter()
     const { id } = use(params);
     const { data: schedule, isLoading: scheduleLoading, error } = useGetScheduleQuery(id);
+    const { data: sections, isLoading: sectionLoading } = useGetTestQuery()
     const { data: rooms, isLoading: roomLoading} = useGetRoomsQuery()
     const { data: professionals, isLoading: profLoading} = useGetProfessorsQuery()
 
     const [active, setActive] = useState('home')
     const [roomActive, setRoomActive] = useState(false)
     const [profActive, setProfActive] = useState(false)
+    const [sectionActive, setSectionActive] = useState(false) 
 
-    if (scheduleLoading || roomLoading || profLoading) return <div>Loading...</div>;
+    if (scheduleLoading || roomLoading || profLoading || sectionLoading) return <div>Loading...</div>;
     if(!schedule) return <div>Error</div>
     if (error) return <div>Error loading schedule</div>;
   return (
@@ -42,7 +44,7 @@ const ScheduleLayout = ({ children, params }: ScheduleLayoutProps) => {
                     <BookOpenCheck className='text-2xl'/>
                     <h1>Assign</h1>
                 </div>
-                <div onClick={() => { setRoomActive(!roomActive); setProfActive(false)}} className={`cursor-pointer text-white hover:bg-zinc-600 transition-all duration-200 flex justify-between items-center w-full py-2 px-5 rounded-lg ${roomActive ? 'bg-zinc-600' : ''}`}>
+                <div onClick={() => { setRoomActive(!roomActive); setProfActive(false); setSectionActive(false)}} className={`cursor-pointer text-white hover:bg-zinc-600 transition-all duration-200 flex justify-between items-center w-full py-2 px-5 rounded-lg ${roomActive ? 'bg-zinc-600' : ''}`}>
                     <div className='flex gap-3 items-center'>
                         <HousePlus className='text-2xl'/>
                         <h1>Rooms</h1>
@@ -52,30 +54,47 @@ const ScheduleLayout = ({ children, params }: ScheduleLayoutProps) => {
                 {roomActive && (
                 <div className='max-h-[200px] w-full overflow-y-auto'>
                     {rooms?.rooms?.map((room) => (
-                        <div key={room.id} onClick={() => { setActive(room.name) }} className={`cursor-pointer text-white hover:bg-zinc-600 transition-all duration-200 flex gap-3 items-center w-full py-2 px-5 rounded-lg ${active === room.name ? 'bg-zinc-600' : ''}`}>
+                        <div key={room.id} onClick={() => { setActive(room.name); router.push(`/${id}/room/${room.id}`) }} className={`cursor-pointer text-white hover:bg-zinc-600 transition-all duration-200 flex gap-3 items-center w-full py-2 px-5 rounded-lg ${active === room.name ? 'bg-zinc-600' : ''}`}>
                             <Blinds className='ml-5' size={18}/>
                             <h1 className='text-sm'>{room.name}</h1>
                         </div>
                     ))}
                 </div>
                 )}
-                <div onClick={() => { setProfActive(!profActive); setRoomActive(false)}} className={`cursor-pointer text-white hover:bg-zinc-600 transition-all duration-200 flex justify-between items-center w-full py-2 px-5 rounded-lg ${profActive ? 'bg-zinc-600' : ''}`}>
+                <div onClick={() => { setProfActive(!profActive); setRoomActive(false); setSectionActive(false)}} className={`cursor-pointer text-white hover:bg-zinc-600 transition-all duration-200 flex justify-between items-center w-full py-2 px-5 rounded-lg ${profActive ? 'bg-zinc-600' : ''}`}>
                     <div className='flex gap-3 items-center'>
                         <GraduationCap className='text-2xl'/>
                         <h1>Professors</h1>
                     </div>
                     {profActive ? <ChevronDown size={15}/> :<ChevronRight size={15}/>}
                 </div>
-                <div className='max-h-[200px] w-full overflow-y-auto'>
                     {profActive && (
-                        professionals?.professors?.map((prof) => (
-                            <div key={prof.id} onClick={() => { setActive(prof.id) }} className={`cursor-pointer text-white hover:bg-zinc-600 transition-all duration-200 flex gap-3 items-center w-full py-2 px-5 rounded-lg ${active === prof.id ? 'bg-zinc-600' : ''}`}>
+                        <div className='max-h-[200px] w-full overflow-y-auto'>
+                        {professionals?.professors?.map((prof) => (
+                            <div key={prof.id} onClick={() => { setActive(prof.id); router.push(`/${id}/professor/${prof.id}`) }} className={`cursor-pointer text-white hover:bg-zinc-600 transition-all duration-200 flex gap-3 items-center w-full py-2 px-5 rounded-lg ${active === prof.id ? 'bg-zinc-600' : ''}`}>
                                 <GraduationCap className='ml-5' size={18}/>
                                 <h1 className='text-sm'>{prof.firstName} {prof.lastName === 'TBA' ? '' : prof.lastName}</h1>
                             </div>
-                        ))
+                        ))}
+                        </div>
                     )}
+                <div onClick={() => { setSectionActive(!sectionActive); setRoomActive(false); setProfActive(false)}} className={`cursor-pointer text-white hover:bg-zinc-600 transition-all duration-200 flex justify-between items-center w-full py-2 px-5 rounded-lg ${sectionActive ? 'bg-zinc-600' : ''}`}>
+                    <div className='flex gap-3 items-center'>
+                        <GraduationCap className='text-2xl'/>
+                        <h1>Sections</h1>
+                    </div>
+                    {sectionActive ? <ChevronDown size={15}/> :<ChevronRight size={15}/>}
                 </div>
+                    {sectionActive && (
+                        <div className='max-h-[200px] w-full overflow-y-auto'>
+                        {sections?.sections?.map((section) => (
+                            <div key={section.id} onClick={() => { setActive(section.id); router.push(`/${id}/professor/${section.id}`) }} className={`cursor-pointer text-white hover:bg-zinc-600 transition-all duration-200 flex gap-3 items-center w-full py-2 px-5 rounded-lg ${active === section.id ? 'bg-zinc-600' : ''}`}>
+                                <GraduationCap className='ml-5' size={18}/>
+                                <h1 className='text-sm'>{section.type === 'Computer Science' ? 'BSCS' : 'BSIT'}{section.year[0]}{section.section}</h1>
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
         {children}

@@ -40,7 +40,7 @@ const Homepage = () => {
               
           </div>
           
-            <button className='mt-5 p-3 bg-green-800 rounded-md font-bold text-white cursor-pointer hover:bg-green-900'>Edit</button>
+            <button onClick={() => router.push(`/${schedule.id}`)} className='mt-5 p-3 bg-green-800 rounded-md font-bold text-white cursor-pointer hover:bg-green-900'>Edit</button>
         </div>
           ))}
       </div>

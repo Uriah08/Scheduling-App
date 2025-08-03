@@ -5,9 +5,8 @@ export async function GET(
   req: NextRequest,
   context: { params: { id: string } }
 ) {
-  const { id } = context.params;
-
   try {
+    const { id } = await context.params;
     const schedule = await prisma.schedule.findUnique({
       where: { id },
     });

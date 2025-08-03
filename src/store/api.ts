@@ -21,6 +21,40 @@ type SectionResponse = {
   sections?: Section[]
 }
 
+type AssignedCourse = {
+  id: string
+  scheduleId: string
+  professorId: string
+  courseId: string
+  schedule: {
+    id: string
+    name: string
+    year: string
+    semester: string
+    description?: string | null
+  }
+  professor: {
+    id: string
+    firstName: string
+    lastName: string
+    middleInitial?: string | null
+    acadRank: string
+  }
+  course: {
+    id: string
+    program: string
+    code: string
+    title: string
+    creditLec: number
+    creditLab: number
+    contactLec: number
+    contactLab: number
+    prerequisites: string[]
+    year: string
+    semester: string
+  }
+}
+
 type GetAllResponse = {
   status: number;
   data: {
@@ -63,7 +97,7 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:3000/api",
   }),
-  tagTypes: ['Schedule','Professor','Course','Room','Section'],
+  tagTypes: ['Schedule','Professor','Course','Room','Section', 'Assign'],
   endpoints: (build) => ({
     createSchedule: build.mutation({
       query: (data) => ({
@@ -108,6 +142,13 @@ export const api = createApi({
       }),
       providesTags: ['Professor'],
     }),
+    getProfessor: build.query<Professor, string>({
+      query: (id) => ({
+        url: `/professors/${id}`,
+        method: "GET",
+      }),
+      providesTags: ['Professor'],
+    }),
     createCourse: build.mutation({
       query: (data) => ({
         url: "/courses",
@@ -144,6 +185,13 @@ export const api = createApi({
       }),
       providesTags: ['Room'],
     }),
+    getRoom: build.query<Room, string>({
+      query: (id) => ({
+        url: `/rooms/${id}`,
+        method: "GET",
+      }),
+      providesTags: ['Room'],
+    }),
     createSection: build.mutation({
       query: (data) => ({
         url: "/sections",
@@ -157,17 +205,49 @@ export const api = createApi({
     }),
     getSections: build.query<SectionResponse, void>({
       query: () => ({
-        url: "/section",
+        url: "/sections",
         method: "GET",
       }),
       providesTags: ['Section'],
     }),
-    getAll: build.query<GetAllResponse, void>({
+    getTest: build.query<SectionResponse, void>({
       query: () => ({
-        url: "/all",
+        url: "/test",
+        method: "GET",
+      }),
+      providesTags: ['Section'],
+    }),
+    getAll: build.query<GetAllResponse, string>({
+      query: (id) => ({
+        url: `/all/${id}`,
         method: "GET",
       }),
       providesTags: ['Section','Schedule','Room','Course','Professor'],
+    }),
+    assignCourse: build.mutation({
+      query: (data) => ({
+        url: "/assign",
+        method: "POST",
+        body: data,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+      invalidatesTags: ['Assign']
+    }),
+    getAssignedCourse: build.query<AssignedCourse[], string>({
+      query: (id) => ({
+        url: `/assign/${id}`,
+        method: "GET",
+      }),
+      providesTags: ['Assign'],
+    }),
+    deleteAssignedCourse: build.mutation<void, { scheduleId: string; professorId: string; courseId: string }>({
+      query: ({ scheduleId, professorId, courseId }) => ({
+        url: `/assign/${scheduleId}/${professorId}/${courseId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Assign'],
     }),
   }),
 });
@@ -178,11 +258,17 @@ export const {
   useGetScheduleQuery,
   useCreateProfessorMutation,
   useGetProfessorsQuery,
+  useGetProfessorQuery,
   useCreateCourseMutation,
   useGetCoursesQuery,
   useCreateRoomMutation,
   useGetRoomsQuery,
+  useGetRoomQuery,
   useCreateSectionMutation,
   useGetSectionsQuery,
-  useGetAllQuery
+  useGetTestQuery,
+  useGetAllQuery,
+  useAssignCourseMutation,
+  useGetAssignedCourseQuery,
+  useDeleteAssignedCourseMutation
 } = api;

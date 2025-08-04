@@ -19,21 +19,21 @@ const Homepage = () => {
   
   return (
 
-    <div className='bg-gray-300 w-full h-[100vh] overflow-auto'>
+    <div className=' w-full h-[100vh] overflow-auto'>
       <h1 className='text-2xl font-bold ml-5 mt-5 '>Scheduling</h1>
-      <div className='grid grid-cols-3 mt-5 gap-5 mx-5'>
+      <div className='grid grid-cols-3 mt-5 gap-5 mx-5 '>
           {schedules?.map((schedule) => (
-        <div key={schedule.id} className='flex flex-col bg-white justify-center p-5 rounded-md max-w-[400px]'>
-          <h1 className='text-2xl font-bold border-b-2 border-black py-2'>{schedule.name}</h1>
+        <div key={schedule.id} className='flex flex-col justify-center p-5 rounded-md max-w-[400px] border-2 border-black'>
+          <h1 className='w-fulltext-2xl font-bold border-b-2 border-black py-2'>{schedule.name}</h1>
           <p className="items-center mt-5 bg-gray-200 px-3 h-[135px] rounded-md pt-2 break-words whitespace-pre-wrap">
   {schedule .description}
 </p>
           <div className='flex flex-row gap-5 mt-5'>
-              <div className=' flex flex-row gap-2 text-[15px]'>
+              <div className=' flex flex-row gap-2 text-[14px]'>
                 <h1 className='font-bold'>Year:</h1>
                 <h1>{schedule.year}</h1>
               </div>
-              <div className=' flex flex-row gap-2 text-[15px]'>
+              <div className=' flex flex-row gap-2 text-[14px]'>
                 <h1 className='font-bold'>Semester:</h1>
                 <h1>{schedule.semester}</h1>
               </div>

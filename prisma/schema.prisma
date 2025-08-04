@@ -20,6 +20,7 @@ model Schedule {
   description String?
   year        String
   semester    String
+  weeklySchedules   WeeklySchedule[]
   courseAssignments CourseAssignment[]
   sections          Section[]
 }
@@ -30,6 +31,7 @@ model Professor {
   lastName      String
   middleInitial String?
   acadRank      String
+  weeklySchedules   WeeklySchedule[]
   courseAssignments CourseAssignment[]
 }
 
@@ -45,6 +47,7 @@ model Course {
   prerequisites String[]
   year          String
   semester      String
+  weeklySchedules   WeeklySchedule[]
   courseAssignments CourseAssignment[]
 }
 
@@ -53,8 +56,9 @@ model Section {
   type        String
   year        String
   section     String
-  schedule     Schedule @relation(fields: [scheduleId], references: [id])
+  schedule     Schedule @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
   scheduleId   String
+  weeklySchedules   WeeklySchedule[]
 }
 
 model Room {
@@ -64,12 +68,28 @@ model Room {
 
 model CourseAssignment {
   id          String    @id @default(uuid())
-  schedule    Schedule  @relation(fields: [scheduleId], references: [id])
+  schedule    Schedule  @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
   scheduleId  String
 
-  professor   Professor @relation(fields: [professorId], references: [id])
+  professor   Professor @relation(fields: [professorId], references: [id], onDelete: Cascade)
   professorId String
 
-  course      Course    @relation(fields: [courseId], references: [id])
+  course      Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
   courseId    String
 }
+
+model WeeklySchedule {
+  id          String @id @default(uuid())
+  schedule    Schedule  @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
+  scheduleId  String
+
+  professor   Professor @relation(fields: [professorId], references: [id], onDelete: Cascade)
+  professorId String
+
+  course      Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId    String
+
+  section      Section    @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  sectionId    String
+}
+

@@ -55,6 +55,10 @@ type AssignedCourse = {
   }
 }
 
+type AssignedCourses = {
+  assign: AssignedCourse
+}
+
 type GetAllResponse = {
   status: number;
   data: {
@@ -89,6 +93,16 @@ type GetAllResponse = {
       name: string;
     }[];
   };
+};
+
+type CourseAssignment = {
+  id: string;
+  course: Course;
+  schedule: Schedule;
+};
+
+export type CourseAssignments = {
+  assign: CourseAssignment[]
 };
 
 
@@ -242,6 +256,13 @@ export const api = createApi({
       }),
       providesTags: ['Assign'],
     }),
+    getProfAssign: build.query<CourseAssignments, { scheduleId: string; professorId: string }>({
+      query: ({scheduleId, professorId}) => ({
+        url: `/assign/${scheduleId}/${professorId}`,
+        method: "GET",
+      }),
+      providesTags: ['Assign'],
+    }),
     deleteAssignedCourse: build.mutation<void, { scheduleId: string; professorId: string; courseId: string }>({
       query: ({ scheduleId, professorId, courseId }) => ({
         url: `/assign/${scheduleId}/${professorId}/${courseId}`,
@@ -269,6 +290,7 @@ export const {
   useGetTestQuery,
   useGetAllQuery,
   useAssignCourseMutation,
+  useGetProfAssignQuery,
   useGetAssignedCourseQuery,
   useDeleteAssignedCourseMutation
 } = api;

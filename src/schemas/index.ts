@@ -41,6 +41,12 @@ export const courseSchema = z.object({
   contactLec: z.string().min(1),
   contactLab: z.string().optional(),
   prerequisites: z.array(z.string()).optional(),
+  year: z.string().min(2, {
+    message: "Course title is required"
+  }),
+  semester: z.string().min(2, {
+    message: "Course title is required"
+  }),
 })
 
 export const sectionSchema = z.object({
@@ -89,3 +95,45 @@ export const years = [
   { label: "2033-2034", value: "2033-2034" },
   { label: "2034-2035", value: "2034-2035" },
 ] as const
+
+export const timeSlots = [
+  '7:00 - 7:30',
+  '7:30 - 8:00',
+  '8:00 - 8:30',
+  '8:30 - 9:00',
+  '9:00 - 9:30',
+  '9:30 - 10:00',
+  '10:00 - 10:30',
+  '10:30 - 11:00',
+  '11:00 - 11:30',
+  '11:30 - 12:00',
+  '12:00 - 12:30',
+  '12:30 - 1:00',
+  '1:00 - 1:30',
+  '1:30 - 2:00',
+  '2:00 - 2:30',
+  '2:30 - 3:00',
+  '3:00 - 3:30',
+  '3:30 - 4:00',
+  '4:00 - 4:30',
+  '4:30 - 5:00',
+  '5:00 - 5:30',
+  '5:30 - 6:00',
+  '6:00 - 6:30',
+  '6:30 - 7:00',
+]
+
+export const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+
+export const colors = [
+  '#FF6B6B',
+  '#6BCB77',
+  '#4D96FF',
+  '#FFD93D',
+  '#FF6F91',
+  '#6A67CE',
+  '#00C2A8',
+  '#F28482',
+  '#FFB703',
+  '#A8DADC',
+];

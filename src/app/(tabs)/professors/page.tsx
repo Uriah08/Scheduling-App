@@ -1,9 +1,6 @@
 'use client'
 
-import CreateCourse from '@/components/dialogs/CreateCourse';
 import CreateProfessor from '@/components/dialogs/CreateProfessor';
-import CreateRoom from '@/components/dialogs/CreateRoom';
-import CreateSection from '@/components/dialogs/CreateSection';
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import React from 'react'

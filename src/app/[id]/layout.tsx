@@ -15,7 +15,7 @@ const ScheduleLayout = ({ children, params }: ScheduleLayoutProps) => {
     const router = useRouter()
     const { id } = use(params);
     const { data: schedule, isLoading: scheduleLoading, error } = useGetScheduleQuery(id);
-    const { data: sections, isLoading: sectionLoading } = useGetTestQuery()
+    const { data: sections, isLoading: sectionLoading } = useGetTestQuery(id)
     const { data: rooms, isLoading: roomLoading} = useGetRoomsQuery()
     const { data: professionals, isLoading: profLoading} = useGetProfessorsQuery()
 
@@ -28,7 +28,7 @@ const ScheduleLayout = ({ children, params }: ScheduleLayoutProps) => {
     if(!schedule) return <div>Error</div>
     if (error) return <div>Error loading schedule</div>;
   return (
-    <div className='w-full h-[100vh] flex'>
+    <div className='w-full h-[100vh] flex fixed left-0 top-0'>
         <div className='h-full flex-col max-w-[300px] w-full bg-[#262626] rounded-r-2xl justify-center'>
             <div className='flex w-full items-center gap-5 p-5 justify-center mt-5'>
                 <Image src={'/cvsu-logo.png'} width={200} height={200} alt='logo' className='w-[50px] h-[50px]'/>

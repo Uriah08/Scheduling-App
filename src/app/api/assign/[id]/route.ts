@@ -16,7 +16,10 @@ export async function GET(
                 course: true,
                 professor: {
                     select: {
-                        id: true
+                        id: true,
+                        firstName: true,
+                        lastName: true,
+                        acadRank: true
                     }
                 },
             }

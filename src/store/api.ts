@@ -210,9 +210,9 @@ export const api = createApi({
       }),
       providesTags: ['Section'],
     }),
-    getTest: build.query<SectionResponse, void>({
-      query: () => ({
-        url: "/test",
+    getTest: build.query<SectionResponse, string>({
+      query: (id) => ({
+        url: `/test/${id}`,
         method: "GET",
       }),
       providesTags: ['Section'],

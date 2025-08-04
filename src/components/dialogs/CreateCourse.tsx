@@ -43,7 +43,9 @@ const CreateCourse = ({ onOpenChange }: CreateProfessorProps) => {
                 creditLab: "0",
                 contactLec: "1",
                 contactLab: "0",
-                prerequisites: []
+                prerequisites: [],
+                year: "",
+                semester: ""
             },
         })
     
@@ -78,6 +80,51 @@ const CreateCourse = ({ onOpenChange }: CreateProfessorProps) => {
                         <SelectContent>
                         <SelectItem value="Information Technology">Information Technology</SelectItem>
                         <SelectItem value="Computer Science">Computer Science</SelectItem>
+                        </SelectContent>
+                    </Select>
+                    <FormMessage />
+                    </FormItem>
+                )}
+                />
+                <FormField
+                control={form.control}
+                name="year"
+                render={({ field }) => (
+                    <FormItem>
+                    <FormLabel>Year</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl className='w-full'>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Select year"/>
+                        </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                        <SelectItem value="1st">1st</SelectItem>
+                        <SelectItem value="2nd">2nd</SelectItem>
+                        <SelectItem value="3rd">3rd</SelectItem>
+                        <SelectItem value="4th">4th</SelectItem>
+                        </SelectContent>
+                    </Select>
+                    <FormMessage />
+                    </FormItem>
+                )}
+                />
+                <FormField
+                control={form.control}
+                name="semester"
+                render={({ field }) => (
+                    <FormItem>
+                    <FormLabel>Semester</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl className='w-full'>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Select semester"/>
+                        </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                        <SelectItem value="First Semester">First Semester</SelectItem>
+                        <SelectItem value="Second Semester">Second Semester</SelectItem>
+                        <SelectItem value="Mid Year Class">Mid Year Class</SelectItem>
                         </SelectContent>
                     </Select>
                     <FormMessage />
@@ -227,7 +274,7 @@ const CreateCourse = ({ onOpenChange }: CreateProfessorProps) => {
                     <DialogClose asChild> 
                         <Button variant={'outline'} className='border-zinc-400 cursor-pointer'>Cancel</Button>
                     </DialogClose>
-                    <Button type="submit" className='bg-[#0b6602] hover:bg-[#084e02] cursor-pointer'>Create</Button>
+                    <Button type="submit" className='bg-[#0b6602] hover:bg-[#084e02] cursor-pointer'>{isLoading ? 'Creating...' : 'Create'}</Button>
                 </div>
             </form>
         </Form>

@@ -33,11 +33,11 @@ const TabLayout = ({ children }: Props ) => {
 
                 <div className='flex flex-col mt-10 border-y-2 w-full py-5'>
                   {sidebarItems.map((item, index) => (
-                    <div onClick={() => setActiveTab(item.name)} key={index} 
+                    <Link href={item.href} onClick={() => setActiveTab(item.name)} key={index} 
                     className={`flex flex-row gap-5 items-center p-2 rounded-2xl hover:bg-zinc-600 transition-all duration-200 cursor-pointer m-3 ${activeTab === item.name ? 'bg-zinc-600' : ''}`}>
                     <item.icon className='text-white' size={30} />
-                    <Link href={item.href} className='text-white text-[18px]'>{item.name}</Link>
-                  </div>
+                    <h1 className='text-white text-[18px]'>{item.name}</h1>
+                  </Link>
                   ))}
                                  
                 </div>

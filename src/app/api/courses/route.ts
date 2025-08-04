@@ -14,7 +14,7 @@ export async function POST(request: Request) {
             );
         }
 
-        const { program, code, title, creditLec, creditLab, contactLec, contactLab, prerequisites } = parsed.data
+        const { program, code, title, creditLec, creditLab, contactLec, contactLab, prerequisites, year, semester } = parsed.data
 
         await prisma.course.create({
             data: {
@@ -25,7 +25,9 @@ export async function POST(request: Request) {
                 creditLab: Number(creditLab),
                 contactLab: Number(contactLab),
                 contactLec: Number(contactLec),
-                prerequisites
+                prerequisites,
+                year,
+                semester
             }
         })   
 

@@ -4,7 +4,7 @@ import React from 'react';
 import { useDrag } from 'react-dnd'
 
 type DraggableCourseProps = {
-  course: { id: string; code: string }
+  course: { id: string; code: string; program: string }
 }
 
 export const DraggableCourse = ({ course }: DraggableCourseProps) => {
@@ -20,13 +20,13 @@ export const DraggableCourse = ({ course }: DraggableCourseProps) => {
   drag(ref)
 
   return (
-    <div
-      ref={ref}
-      className={`bg-zinc-200 py-2 px-3 rounded-xl w-full cursor-move ${
-        isDragging ? 'opacity-50' : ''
-      }`}
-    >
-      <h1 className='text-zinc-600'>{course.code}</h1>
-    </div>
+      <div
+        ref={ref}
+        className={`py-2 px-3 rounded-xl w-full cursor-move h-fit ${course.program === 'Computer Science' ? 'bg-green-200' : 'bg-blue-200'} ${
+          isDragging ? 'opacity-50' : ''
+        }`}
+      >
+        <h1 className='text-zinc-600'>{course.code}</h1>
+      </div>
   )
 }

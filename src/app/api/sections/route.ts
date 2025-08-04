@@ -5,7 +5,12 @@ import { sectionSchema } from "@/schemas";
 export async function POST(request: Request) {
     try {
         const body = await request.json()
-        const parsed = sectionSchema.safeParse(body)
+
+        const {
+            id,
+            ...data
+        } = body
+        const parsed = sectionSchema.safeParse(data)
 
         if (!parsed.success) {
             return NextResponse.json(
@@ -16,11 +21,27 @@ export async function POST(request: Request) {
 
         const { type, year, section } = parsed.data
 
-        await prisma.section.create({
-            data: {
+        console.log(type, year, section, id);
+        
+        const existing = await prisma.section.findFirst({
+            where: {
                 type,
                 year,
-                section
+                section,
+                scheduleId: id
+            }
+        })
+
+        if (existing) {
+            return NextResponse.json({ error: 'This section exists' }, { status: 409 })
+        }
+
+        await prisma.section.create({
+            data: {
+                scheduleId: id,
+                type,
+                year,
+                section,
             }
         })
 
@@ -33,7 +54,8 @@ export async function POST(request: Request) {
 
 export async function GET() {
     try {
-        const sections = await prisma.section.findMany({});
+        console.log('hit');
+        const sections = await prisma.section.findMany(); 
         
         return NextResponse.json({sections}, { status: 200 });
     } catch (error) {

@@ -20,23 +20,23 @@ const sidebarItems = [
 const TabLayout = ({ children }: Props ) => {
   const [activeTab, setActiveTab] = useState('Schedules');
   return (
-    <div className='flex'>
-        <div className='flex flex-col min-w-[250px] bg-linear-to-t from-[#0f8b09] to-[#0bcb0d] h-[100vh] items-center'>
-                <Link href={'/'} className='flex items-center mt-5 gap-3'>
+    <div className='w-full h-[100vh] flex'>
+        <div className='h-full flex-col max-w-[300px] w-full bg-[#262626] rounded-r-2xl justify-center'>
+                <Link href={'/'} className='flex w-full items-center gap-5 py-8 justify-center border-b-2'>
                   <Image src={'/cvsu-logo.png'} alt='logo' width={50} height={50} className='rounded-full' />
                   <h1 className='text-white text-[17px] font-bold'>CVSU SCHEDULING</h1>
                 </Link>
-                <div className='flex flex-row  items-center gap-3 mt-10 bg-[#457a00] py-2 px-2 rounded-full cursor-pointer hover:bg-[#188010] transition-all duration-300'>
-                  <Plus className='text-white bg-[#233d00] w-[40px] h-[40px] rounded-full' size={30}  />
-                  <h1 className='text-white text-[20px] font-bold px-3'>Add Schedule</h1>
+                <div className='flex flex-row  items-center gap-3 bg-[#457a00] py-2 px-2 rounded-full cursor-pointer hover:bg-[#188010] transition-all duration-300 border-y-2 mt-10 mx-5'>
+                  <Plus className='text-white bg-[#233d00] w-[30px] h-[30px] rounded-full' size={30}  />
+                  <h1 className='text-white text-[18px] font-bold px-3'>Add Schedule</h1>
                 </div>
 
-                <div className='flex flex-col gap-3 mt-10 '>
+                <div className='flex flex-col mt-10 border-y-2 w-full py-5'>
                   {sidebarItems.map((item, index) => (
                     <div onClick={() => setActiveTab(item.name)} key={index} 
-                    className={`flex flex-row gap-2 mt-5 items-center py-2 px-2 rounded-2xl hover:bg-[#233d00] transition-all duration-300 cursor-pointer ${activeTab === item.name ? 'bg-[#233d00]' : ''}`}>
-                    <item.icon className='text-white' size={35} />
-                    <Link href={item.href} className='text-white text-[22px] px-4'>{item.name}</Link>
+                    className={`flex flex-row gap-5 items-center p-2 rounded-2xl hover:bg-zinc-600 transition-all duration-200 cursor-pointer m-3 ${activeTab === item.name ? 'bg-zinc-600' : ''}`}>
+                    <item.icon className='text-white' size={30} />
+                    <Link href={item.href} className='text-white text-[18px]'>{item.name}</Link>
                   </div>
                   ))}
                                  

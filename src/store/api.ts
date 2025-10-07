@@ -17,7 +17,7 @@ type RoomResponse = {
   rooms?: Room[]
 }
 
-type SectionResponse = {
+export type SectionResponse = {
   sections?: Section[]
 }
 
@@ -53,10 +53,6 @@ type AssignedCourse = {
     year: string
     semester: string
   }
-}
-
-type AssignedCourses = {
-  assign: AssignedCourse
 }
 
 type GetAllResponse = {
@@ -105,13 +101,17 @@ export type CourseAssignments = {
   assign: CourseAssignment[]
 };
 
+export type RoomAssignments = {
+  assign: Room[]
+};
+
 
 export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:3000/api",
   }),
-  tagTypes: ['Schedule','Professor','Course','Room','Section', 'Assign'],
+  tagTypes: ['Schedule','Professor','Course','Room','Section', 'Assign','Weekly'],
   endpoints: (build) => ({
     createSchedule: build.mutation({
       query: (data) => ({
@@ -261,7 +261,14 @@ export const api = createApi({
         url: `/assign/${scheduleId}/${professorId}`,
         method: "GET",
       }),
-      providesTags: ['Assign'],
+      providesTags: ['Assign','Professor'],
+    }),
+    getRoomAssign: build.query<RoomAssignments, { scheduleId: string; roomId: string }>({
+      query: ({scheduleId, roomId}) => ({
+        url: `/assign/${scheduleId}/room/${roomId}`,
+        method: "GET",
+      }),
+      providesTags: ['Assign', 'Room'],
     }),
     deleteAssignedCourse: build.mutation<void, { scheduleId: string; professorId: string; courseId: string }>({
       query: ({ scheduleId, professorId, courseId }) => ({
@@ -269,6 +276,27 @@ export const api = createApi({
         method: 'DELETE',
       }),
       invalidatesTags: ['Assign'],
+    }),
+    createWeekly: build.mutation({
+      query: (data) => ({
+        url: "/weekly",
+        method: "POST",
+        body: data,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+      invalidatesTags: ['Assign','Weekly'],
+    }),
+
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    getWeeklyProf: build.query<any, any>({
+      query: ({scheduleId, professorId}) => ({
+        url: `/weekly/${scheduleId}/${professorId}`,
+        method: "GET",
+      }),
+      providesTags: ['Assign','Weekly'],
     }),
   }),
 });
@@ -284,6 +312,7 @@ export const {
   useGetCoursesQuery,
   useCreateRoomMutation,
   useGetRoomsQuery,
+  useGetRoomAssignQuery,
   useGetRoomQuery,
   useCreateSectionMutation,
   useGetSectionsQuery,
@@ -292,5 +321,8 @@ export const {
   useAssignCourseMutation,
   useGetProfAssignQuery,
   useGetAssignedCourseQuery,
-  useDeleteAssignedCourseMutation
+  useDeleteAssignedCourseMutation,
+  useCreateWeeklyMutation,
+
+  useGetWeeklyProfQuery
 } = api;

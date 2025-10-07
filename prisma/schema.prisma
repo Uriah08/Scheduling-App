@@ -91,5 +91,8 @@ model WeeklySchedule {
 
   section      Section    @relation(fields: [sectionId], references: [id], onDelete: Cascade)
   sectionId    String
+
+  day          String
+  time         String[]
 }
 

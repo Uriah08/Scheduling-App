@@ -1,0 +1,5 @@
+const match = scheduleData.find((s) => s.day === day)
+                  const isClassTime =
+                    match &&
+                    match.time.includes(normalizedStart) &&
+                    match.time.includes(normalizedEnd)

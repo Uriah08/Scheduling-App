@@ -16,37 +16,37 @@ const SchedulePage = ({ params }: { params: Promise<{ id: string }> }) => {
   const { data: sections, isLoading: sectionLoading } = useGetTestQuery(id)
 
   const groupedByProfessor = useMemo(() => {
-  if (!assigned) return [];
+    if (!assigned) return [];
 
-  const map = new Map();
+    const map = new Map();
 
-  assigned.forEach((item) => {
-    const profId = item.professor?.id;
-    const firstName = item.professor?.firstName;
-    const lastName = item.professor?.lastName;
-    const rank = item.professor?.acadRank
-    if (!profId) return;
+    assigned.forEach((item) => {
+      const profId = item.professor?.id;
+      const firstName = item.professor?.firstName;
+      const lastName = item.professor?.lastName;
+      const rank = item.professor?.acadRank
+      if (!profId) return;
 
-    if (!map.has(profId)) {
-      map.set(profId, {
-        professorId: profId,
-        profName: `${firstName} ${lastName}`,
-        acadRank: rank,
-        courses: [],
-      });
-    }
+      if (!map.has(profId)) {
+        map.set(profId, {
+          professorId: profId,
+          profName: `${firstName} ${lastName}`,
+          acadRank: rank,
+          courses: [],
+        });
+      }
 
-    map.get(profId).courses.push(item.course);
-  })
+      map.get(profId).courses.push(item.course);
+    })
 
-  return Array.from(map.values());
-}, [assigned]);
+    return Array.from(map.values());
+  }, [assigned]);
 
   console.log(groupedByProfessor);
 
   if(!schedule) return <div>Error</div>
 
-  if (scheduleLoading || allLoading || assignLoading) return <div>Loading...</div>;
+  if (scheduleLoading || allLoading || assignLoading || sectionLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading schedule</div>;
   
   return (
